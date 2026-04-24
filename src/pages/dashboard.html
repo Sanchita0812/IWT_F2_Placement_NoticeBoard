@@ -69,7 +69,6 @@
         </main>
     </div>
 
-    <!-- Modals -->
     <div class="modal-bg" id="uploadModal">
         <div class="modal">
             <h2>Create Noticeboard Post</h2>
@@ -113,7 +112,6 @@
         </div>
     </div>
 
-    <!-- Shared App Scripts -->
     <script src="../assets/js/app.js"></script>
     <script>
         // Init Dashboard logic
@@ -259,7 +257,9 @@
                     author: currentUser.name,
                     text: text,
                     fileUrl: fileDataUrl,
-                    fileName: fileName
+                    fileName: fileName,
+                    likes: [],
+                    comments: []
                 });
                 saveState();
                 renderFeeds();
@@ -286,9 +286,43 @@
             }
         }
 
+        function toggleLike(id) {
+            const feed = feeds.find(f => f.id === id);
+            if (feed) {
+                feed.likes = feed.likes || [];
+                const index = feed.likes.indexOf(currentUser.name);
+                if (index > -1) {
+                    feed.likes.splice(index, 1);
+                } else {
+                    feed.likes.push(currentUser.name);
+                }
+                saveState();
+                renderFeeds();
+            }
+        }
+
+        function addComment(id) {
+            const input = document.getElementById(`commentInput-${id}`);
+            const text = input.value.trim();
+            if (text) {
+                const feed = feeds.find(f => f.id === id);
+                if (feed) {
+                    feed.comments = feed.comments || [];
+                    feed.comments.push({ author: currentUser.name, text: text });
+                    saveState();
+                    renderFeeds();
+                }
+            }
+        }
+
         function renderFeeds() {
             const list = document.getElementById('feedList');
-            list.innerHTML = feeds.map(f => `
+            list.innerHTML = feeds.map(f => {
+                f.likes = f.likes || [];
+                f.comments = f.comments || [];
+                const isLiked = f.likes.includes(currentUser.name);
+
+                return `
         <div class="feed-card">
             <div style="display: flex; justify-content: space-between; align-items: start;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
@@ -301,16 +335,35 @@
             </div>
             ${f.text ? '<p style="margin: 10px 0;">' + f.text + '</p>' : ''}
             ${f.fileUrl && f.fileUrl.startsWith('data:image') ? '<img src="' + f.fileUrl + '" style="width: 100%; border-radius: 8px; margin-top: 10px;" alt="Post image" />' : (f.fileName ? '<div class="attachment-pill">📎 ' + f.fileName + '</div>' : '')}
-            <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 20px;">
-                <button style="background: none; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; border: none; padding: 0;" onclick="this.style.color = 'var(--cobalt)'; this.innerHTML = '👍 Liked'">
-                    👍 Like
+            
+            <div style="margin-top: 10px; font-size: 13px; color: var(--muted);">
+                ${f.likes.length} Likes • ${f.comments.length} Comments
+            </div>
+
+            <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 20px;">
+                <button onclick="toggleLike(${f.id})" style="background: none; color: ${isLiked ? 'var(--cobalt)' : 'var(--muted)'}; font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; border: none; padding: 0;">
+                    👍 ${isLiked ? 'Liked' : 'Like'}
                 </button>
-                <button style="background: none; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; border: none; padding: 0;">
+                <button onclick="document.getElementById('commentBox-${f.id}').classList.toggle('hidden')" style="background: none; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; border: none; padding: 0;">
                     💬 Comment
                 </button>
             </div>
+
+            <div id="commentBox-${f.id}" class="hidden" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                <div style="max-height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 14px;">
+                    ${f.comments.map(c => `
+                        <div style="margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 6px;">
+                            <strong>${c.author}:</strong> ${c.text}
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="commentInput-${f.id}" placeholder="Add a comment..." style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    <button class="btn-primary" style="padding: 8px 15px;" onclick="addComment(${f.id})">Post</button>
+                </div>
+            </div>
         </div>
-    `).join('');
+    `}).join('');
         }
 
         // Initialize first tab
