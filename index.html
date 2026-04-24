@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlaceIntel | The Professional Nexus</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+
+    <!-- Glassmorphic Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+            <span style="color: var(--cobalt);"></span> PlaceIntel
+        </a>
+        <div class="nav-links">
+            <a href="pages/about.html" class="nav-link">About Us</a>
+            <a href="pages/login.html" class="nav-link">Log In</a>
+            <button class="btn-primary" onclick="window.location.href='pages/signup.html'">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- Dynamic Hero Section -->
+    <main class="hero">
+        <h1 style="max-width: 800px;">Elevating Campus Intelligence to Professional Heights</h1>
+        <p>The premier professional nexus for academic institutions bridging the gap between student talent and global
+            industry opportunities in real-time.</p>
+        <div class="hero-btns">
+            <button class="btn-primary" style="background: white; color: var(--navy);"
+                onclick="window.location.href='pages/signup.html'">Create Account</button>
+            <button class="btn-secondary"
+                style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white;"
+                onclick="window.location.href='pages/about.html'">Discover More</button>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>Unleash your campus potential</h2>
+        <div class="features-grid">
+
+            <div class="feature-card">
+                <div class="feature-icon">📢</div>
+                <h3>Real-time Noticeboard</h3>
+                <p>Stay instantaneously updated with the latest placement drives, corporate internships, and urgent
+                    campus-wide announcements.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Intelligence Feed</h3>
+                <p>Engage in an interactive environment. Showcase personal milestones, achievements, and foster industry
+                    connections.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Profile Portfolios</h3>
+                <p>Build a centralized, professional persona. Present your skills, educational journey, and direct
+                    contact details efficiently to administrators.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sleek Footer -->
+    <footer>
+        <p>&copy; 2026 PlaceIntel. Designed for global excellence.</p>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Directly shuttle users to dashboard if logged securely already.
+        if (currentUser) {
+            window.location.href = 'pages/dashboard.html';
+        }
+    </script>
+</body>
+
+</html>
