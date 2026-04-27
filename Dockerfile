@@ -1,11 +1,11 @@
 # Step 1: Build the application
-FROM maven:3.8.4-openjdk-17-slim AS build
+FROM maven:3.8.5-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package
 
 # Step 2: Run the application
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 # Copy the WAR file and the webapp-runner from the build stage
