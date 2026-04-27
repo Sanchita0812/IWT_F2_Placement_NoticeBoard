@@ -1,3 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    // Session check: Redirect logged-in users to the dashboard
+    if (session.getAttribute("userId") != null) {
+        response.sendRedirect("pages/dashboard.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,13 +19,13 @@
 <body>
 
     <nav class="navbar">
-        <a href="index.html" class="nav-logo">
+        <a href="index.jsp" class="nav-logo">
             <span style="color: var(--cobalt);"></span> PlaceIntel
         </a>
         <div class="nav-links">
             <a href="pages/about.html" class="nav-link">About Us</a>
-            <a href="pages/login.html" class="nav-link">Log In</a>
-            <button class="btn-primary" onclick="window.location.href='pages/signup.html'">Get Started</button>
+            <a href="pages/login.jsp" class="nav-link">Log In</a>
+            <button class="btn-primary" onclick="window.location.href='pages/signup.jsp'">Get Started</button>
         </div>
     </nav>
 
@@ -27,7 +35,7 @@
             industry opportunities in real-time.</p>
         <div class="hero-btns">
             <button class="btn-primary" style="background: white; color: var(--navy);"
-                onclick="window.location.href='pages/signup.html'">Create Account</button>
+                onclick="window.location.href='pages/signup.jsp'">Create Account</button>
             <button class="btn-secondary"
                 style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white;"
                 onclick="window.location.href='pages/about.html'">Discover More</button>
@@ -84,12 +92,6 @@
     </footer>
 
     <script src="assets/js/app.js"></script>
-    <script>
-        // Directly shuttle users to dashboard if logged securely already.
-        if (currentUser) {
-            window.location.href = 'pages/dashboard.html';
-        }
-    </script>
 </body>
 
 </html>

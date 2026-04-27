@@ -23,8 +23,8 @@ function saveState() {
 
 const isPages = window.location.pathname.includes('/pages/');
 function getRoute(page) {
-    if (isPages && page === 'index.html') return '../index.html';
-    if (!isPages && page !== 'index.html') return 'pages/' + page;
+    if (isPages && page === 'index.jsp') return '../index.jsp';
+    if (!isPages && page !== 'index.jsp') return 'pages/' + page;
     return page;
 }
 
@@ -49,19 +49,19 @@ function handleAuth(mode) {
         ed: "Not specified."
     };
     saveState();
-    window.location.href = getRoute('dashboard.html');
+    window.location.href = getRoute('dashboard.jsp');
 }
 
 function handleLogout() {
     currentUser = null;
     saveState();
-    window.location.href = getRoute('index.html');
+    window.location.href = getRoute('index.jsp');
 }
 
 // Requires Auth Check
 function requireAuth() {
     if (!currentUser) {
-        window.location.href = getRoute('login.html');
+        window.location.href = getRoute('login.jsp');
     }
 }
 
