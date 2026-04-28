@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    // Session check: Redirect logged-in users to the dashboard
-    if (session.getAttribute("userId") != null) {
+    // Session check: Redirect logged-in users to the dashboard unless they explicitly want to view the landing page
+    if (session.getAttribute("userId") != null && request.getParameter("view") == null) {
         response.sendRedirect("pages/dashboard.jsp");
         return;
     }
@@ -19,10 +19,11 @@
 <body>
 
     <nav class="navbar">
-        <a href="index.jsp" class="nav-logo">
+        <a href="index.jsp?view=landing" class="nav-logo">
             <span style="color: var(--cobalt);"></span> PlaceIntel
         </a>
         <div class="nav-links">
+            <a href="index.jsp?view=landing" class="nav-link">Home</a>
             <a href="pages/about.html" class="nav-link">About Us</a>
             <a href="pages/login.jsp" class="nav-link">Log In</a>
             <button class="btn-primary" onclick="window.location.href='pages/signup.jsp'">Get Started</button>
